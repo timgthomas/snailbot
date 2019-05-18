@@ -29,7 +29,7 @@ module.exports = robot => {
         return { item: x.substring(0, split), price: x.substring(split + 1) }
       })
 
-      msg.send(`This weekend’s luxury items:${items.map(x => '\n• *' + x.item + '*: ' + x.price).join('')}`)
+      msg.send(`This weekend’s luxury items:${items.map(x => '\n• **' + x.item + '**: ' + x.price).join('')}`)
 
     })
 
@@ -48,7 +48,7 @@ module.exports = robot => {
       let { occurrences } = ical.between(new Date(), new Date())
       let pledges = occurrences.map(x => ({ summary: x.item.summary, description: x.item.description.trim() }))
 
-      msg.send(`Today’s pledges are below. We are Undaunted!${pledges.map(x => '\n• *' + x.summary + '* (' + x.description + ')').join('')}`)
+      msg.send(`Today’s pledges are below. We are Undaunted!${pledges.map(x => '\n• **' + x.summary + '** (' + x.description + ')').join('')}`)
 
     })
 
