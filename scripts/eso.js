@@ -6,8 +6,9 @@
 //   "request": ""
 //
 // Commands:
-//   luxury - Lists items sold by this weekend's luxury furnishing vendor
-//   pledges - Lists today's Undaunted pledges
+//   hubot luxury - Lists this weekend's luxury furnishing items
+//   hubot pledges - Lists today's Undaunted pledges
+//   hubot set <name> - Searches for crafted sets
 //
 // Author:
 //   Tim G. Thomas <tim@timgthomas.com>
@@ -28,7 +29,7 @@ let formatSetResponse = set => {
   } else {
     res += '• Locations:'
     for (let l of set.locations) {
-      res += `\n  ◦ ${l.name} (${l.zone})`
+      res += `\n  - ${l.name} (${l.zone})`
     }
   }
 
@@ -54,7 +55,7 @@ module.exports = robot => {
     msg.finish()
   })
 
-  robot.hear(/luxury/i, msg => {
+  robot.respond(/luxury/i, msg => {
 
     request(luxuryUrl, (err, res, body) => {
 
@@ -83,7 +84,7 @@ module.exports = robot => {
 
   })
 
-  robot.hear(/pledges/i, msg => {
+  robot.respond(/pledges/i, msg => {
 
     request(pledgesUrl, (err, res, body) => {
 
