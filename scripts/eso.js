@@ -65,17 +65,18 @@ module.exports = robot => {
       }
 
       let ical = new IcalExpander({ ics: body })
-      // TODO: If it's not a weekend today, grab the following weekend's goods.
-      let { occurrences } = ical.between(new Date(), new Date())
+      let oneDayOfMillis = 24 * 60 * 60 * 1000
+      let { occurrences } = ical.between(new Date(), new Date(+new Date() + 5 * oneDayOfMillis))
       if (occurrences.length === 0) {
         msg.send('Nothing available at the moment. Check back again soon!')
         return
       }
 
       let items = occurrences[0].item.description
-      items = items.match(/^.*\d+,\d+g$/gm).map(x => {
-        let split = x.lastIndexOf(' ')
-        return { item: x.substring(0, split), price: x.substring(split + 1) }
+      items = items.match(/.+?<br>/gm).map(x => {
+        let str = x.replace('<br>', '')
+        let split = str.lastIndexOf(' ')
+        return { item: str.substring(0, split), price: str.substring(split + 1) }
       })
 
       msg.send(`This weekend’s luxury items:${items.map(x => '\n• **' + x.item + '**: ' + x.price).join('')}`)
