@@ -98,7 +98,7 @@ module.exports = robot => {
       let { occurrences } = ical.between(new Date(), new Date())
       let pledges = occurrences.map(x => ({ summary: x.item.summary, description: x.item.description.trim() }))
 
-      msg.send(`Today’s pledges are below. We are Undaunted!${pledges.map(x => '\n• **' + x.summary + '** (' + x.description + ')').join('')}`)
+      msg.send(`Today’s pledges are below. We are Undaunted!${pledges.map(x => `\n• **${x.summary}**`).join('')}`)
 
     })
 
