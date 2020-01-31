@@ -4,6 +4,9 @@
   "private": true,
   "author": "Tim G. Thomas <tim@timgthomas.com>",
   "description": "Booooooooored.",
+  "scripts": {
+    "start": "./bin/hubot -a shell"
+  },
   "dependencies": {
     "hubot": "^3.3.2",
     "hubot-diagnostics": "^1.0.0",
