@@ -85,7 +85,9 @@ module.exports = robot => {
 
   })
 
-  robot.respond(/pledges/i, msg => {
+  robot.respond(/pledges\s*(|tomorrow)$/i, msg => {
+
+    let day = msg.match[1];
 
     request(pledgesUrl, (err, res, body) => {
 
@@ -94,11 +96,13 @@ module.exports = robot => {
         return
       }
 
+      let date = day !== 'tomorrow' ? new Date() : new Date(+new Date() + 24 * 60 * 60 * 1000);
+      let messageDate = day !== 'tomorrow' ? 'Today' : 'Tomorrow';
       let ical = new IcalExpander({ ics: body })
-      let { occurrences } = ical.between(new Date(), new Date())
+      let { occurrences } = ical.between(date, date)
       let pledges = occurrences.map(x => ({ summary: x.item.summary, description: x.item.description.trim() }))
 
-      msg.send(`Today’s pledges are below. We are Undaunted!${pledges.map(x => `\n• **${x.summary}**`).join('')}`)
+      msg.send(`${messageDate}’s pledges are below. We are Undaunted!${pledges.map(x => `\n• **${x.summary}**`).join('')}`)
 
     })
 
