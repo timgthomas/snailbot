@@ -13,6 +13,7 @@
 // Author:
 //   Tim G. Thomas <tim@timgthomas.com>
 
+const chrono = require('chrono-node');
 const IcalExpander = require('ical-expander')
 const request = require('request')
 const sets = require('./eso-sets.json')
@@ -85,9 +86,10 @@ module.exports = robot => {
 
   })
 
-  robot.respond(/pledges\s*(|tomorrow)$/i, msg => {
+  robot.respond(/pledges\s*(.*)$/i, msg => {
 
     let day = msg.match[1];
+    day = chrono.parseDate(day) || new Date();
 
     request(pledgesUrl, (err, res, body) => {
 
@@ -96,13 +98,11 @@ module.exports = robot => {
         return
       }
 
-      let date = day !== 'tomorrow' ? new Date() : new Date(+new Date() + 24 * 60 * 60 * 1000);
-      let messageDate = day !== 'tomorrow' ? 'Today' : 'Tomorrow';
       let ical = new IcalExpander({ ics: body })
-      let { occurrences } = ical.between(date, date)
+      let { occurrences } = ical.between(day, day)
       let pledges = occurrences.map(x => ({ summary: x.item.summary, description: x.item.description.trim() }))
 
-      msg.send(`${messageDate}’s pledges are below. We are Undaunted!${pledges.map(x => `\n• **${x.summary}**`).join('')}`)
+      msg.reply(`Here are the pledges for that day. We are Undaunted! ⚔️${pledges.map(x => `\n• **${x.summary}**`).join('')}`)
 
     })
 
