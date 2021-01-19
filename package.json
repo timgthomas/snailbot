@@ -5,7 +5,8 @@
   "author": "Tim G. Thomas <tim@timgthomas.com>",
   "description": "Booooooooored.",
   "scripts": {
-    "start": "./bin/hubot -a shell"
+    "start": "docker-compose build && docker-compose run hubot ./bin/hubot -a shell",
+    "deploy": "docker-compose build && docker-compose up -d"
   },
   "dependencies": {
     "chrono-node": "^1.4.3",
