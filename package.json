@@ -6,7 +6,7 @@
   "description": "Booooooooored.",
   "scripts": {
     "start": "docker-compose build && docker-compose run hubot ./bin/hubot -a shell",
-    "deploy": "docker-compose build && docker-compose up -d"
+    "deploy": "docker-compose build && docker-compose down && docker-compose up -d"
   },
   "dependencies": {
     "chrono-node": "^1.4.3",
