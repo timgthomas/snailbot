@@ -12,4 +12,6 @@ module.exports = (robot) ->
         res.send "Yeah, Clark!"
     else
       res.send "Yeah, Tim!"
-  
+
+  robot.hear /yeah\W+clark/i, (res) ->
+    res.send ':cricket: :cricket: :cricket:'
