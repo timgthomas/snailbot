@@ -6,7 +6,10 @@ module.exports = (robot) ->
   robot.hear /yeah.*tim/i, (res) ->
     re=/beth/i
     if res.message.user.name.match re
-      res.send "Don't be a brat, Beth!"
+      if Math.random() > 0.1
+        res.send "Don't be a brat, Beth!"
+      else
+        res.send "Yeah, Clark!"
     else
       res.send "Yeah, Tim!"
   
