@@ -9,7 +9,7 @@
     "deploy": "docker-compose build && docker-compose down && docker-compose up -d"
   },
   "dependencies": {
-    "chrono-node": "^1.4.3",
+    "chrono-node": "^2.2.4",
     "@discordjs/uws": "^10.149.0",
     "hubot": "^3.3.2",
     "hubot-diagnostics": "^1.0.0",
