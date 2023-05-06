@@ -2,9 +2,8 @@ import {
   Client,
   Events,
   GatewayIntentBits,
-  REST,
+  REST as DiscordRestClient,
   Routes,
-  SlashCommandBuilder,
 } from 'discord.js'
 import dotenv from 'dotenv'
 import getCommands from './lib/get-commands.js'
@@ -18,18 +17,19 @@ const client = new Client({ intents: [ GatewayIntentBits.Guilds ] })
 client.once(Events.ClientReady, async (e) => {
   console.log(`Ready! Logged in as ${e.user.tag}`)
 
-  client.commands = []
+  const commands = await getCommands()
 
-  for await (const command of getCommands()) {
-    client.commands[command.data.name] = command
-  }
+  client.commands = commands.reduce((acc, command) => {
+    acc[command.data.name] = command
+    return acc
+  }, {})
 
-  const commandsJson = Object.values(client.commands).map(({ data }) => data)
-
-  await new REST().setToken(token).put(
-    Routes.applicationCommands(clientId),
-    { body: commandsJson },
-  )
+  await new DiscordRestClient()
+    .setToken(token)
+    .put(
+      Routes.applicationCommands(clientId),
+      { body: commands.map(({ data }) => data) },
+    )
 })
 
 client.on(Events.InteractionCreate, async (interaction) => {
