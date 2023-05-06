@@ -21,13 +21,7 @@ client.once(Events.ClientReady, async (e) => {
   client.commands = []
 
   for await (const command of getCommands()) {
-    client.commands[command.name] = {
-      ...command,
-      data: new SlashCommandBuilder()
-        .setName(command.name)
-        .setDescription(command.description)
-        .toJSON()
-    }
+    client.commands[command.data.name] = command
   }
 
   const commandsJson = Object.values(client.commands).map(({ data }) => data)
