@@ -6,11 +6,11 @@
   "description": "Booooooooored.",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "dependencies": {
     "discord.js": "^14.10.2",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "glob": "^10.2.2"
   }
 }
