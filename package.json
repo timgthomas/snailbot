@@ -6,7 +6,8 @@
   "description": "Booooooooored.",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "commands": "node publish-commands.js"
   },
   "dependencies": {
     "discord.js": "^14.10.2",

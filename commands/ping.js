@@ -4,6 +4,6 @@ export default {
     description: '.'
   },
   execute: function(interaction) {
-    interaction.reply('pong')
-  }
+    interaction.reply('PONG')
+  },
 }

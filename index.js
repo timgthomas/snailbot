@@ -2,34 +2,23 @@ import {
   Client,
   Events,
   GatewayIntentBits,
-  REST as DiscordRestClient,
-  Routes,
 } from 'discord.js'
 import dotenv from 'dotenv'
 import getCommands from './lib/get-commands.js'
 
 dotenv.config()
-const clientId = process.env.DISCORD_CLIENT_ID
 const token = process.env.DISCORD_TOKEN
 
 const client = new Client({ intents: [ GatewayIntentBits.Guilds ] })
 
 client.once(Events.ClientReady, async (e) => {
-  console.log(`Ready! Logged in as ${e.user.tag}`)
-
   const commands = await getCommands()
-
   client.commands = commands.reduce((acc, command) => {
     acc[command.data.name] = command
     return acc
   }, {})
 
-  await new DiscordRestClient()
-    .setToken(token)
-    .put(
-      Routes.applicationCommands(clientId),
-      { body: commands.map(({ data }) => data) },
-    )
+  console.log(`Ready! Logged in as ${e.user.tag}`)
 })
 
 client.on(Events.InteractionCreate, async (interaction) => {
@@ -43,7 +32,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 
   try {
-    await command.execute.call(interaction, { reply: interaction.reply.bind(interaction) })
+    await command.execute(interaction)
     console.log(`[command] handled command: ${interaction.commandName}`)
   } catch (error) {
     console.error(`[command] error handling command: ${interaction.commandName} (${error})`)
