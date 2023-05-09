@@ -1,0 +1,8 @@
+version: '3.1'
+
+services:
+  snailbot:
+    build: .
+    volumes:
+      - .:/app
+      - /app/node_modules

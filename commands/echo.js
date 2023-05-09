@@ -7,7 +7,7 @@ export default {
     options: [
       {
         name: 'message',
-        description: ' ',
+        description: '.',
         type: ApplicationCommandOptionType.String,
       },
     ],
