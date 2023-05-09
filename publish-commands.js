@@ -18,6 +18,6 @@ const token = process.env.DISCORD_TOKEN;
     .setToken(token)
     .put(
       Routes.applicationCommands(clientId),
-      { body: commands.map(({ data }) => data) },
+      { body: commands.map(({ data }) => data.toJSON?.() ?? data) },
     )
 })()
